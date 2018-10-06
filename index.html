@@ -190,23 +190,15 @@ function music() {
     let d = (Math.floor(audio.duration)%60);
     if (a < 10) {
       a = '0'+(a);
-    } else {
-      a = parseint(a);
     }
     if (b < 10) {
       b = '0'+(b);
-    } else {
-      b = parseint(b);
     }
     if (c < 10) {
       c = '0'+(c);
-    } else {
-      c = parseint(c);
     }
     if (d < 10) {
       d = '0'+(d);
-    } else {
-      d = parseint(d);
     }
     duration = a+':'+b +' / '+c+':'+d;
     if (audio.currentTime == audio.duration) {
