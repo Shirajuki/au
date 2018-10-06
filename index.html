@@ -91,15 +91,17 @@
   <canvas id="screen" width="900" height="600" style="background: url(./img/bg.jpg) no-repeat; border: 1px solid gray; "></canvas>
   <div id="m" class="menu">
     <select id="song" size="1000" style="width: 100%;">
-      <option selected value="DCchaseme">DreamCatcher - Chase me</option>
-      <option value="DCemotion">DreamCatcher - Emotion</option>
-      <option value="DCfullmoon">DreamCatcher - Full Moon</option>
-      <option value="DCgoodnight">DreamCatcher - Good Night</option>
-      <option value="DCjuly7th">DreamCatcher - July 7th</option>
-      <option value="DClullaby">DreamCatcher - Lullaby</option>
-      <option value="DCtrap">DreamCatcher - Trap</option>
-      <option value="DCwhat">DreamCatcher - What</option>
-      <option value="DCwonderland">DreamCatcher - Wonderland</option>
+      <option selected value="DCchaseme">[KR] DreamCatcher - Chase me</option>
+      <option value="DCemotion">[KR] DreamCatcher - Emotion</option>
+      <option value="DCfullmoon">[KR] DreamCatcher - Full Moon</option>
+      <option value="DCgoodnight">[KR] DreamCatcher - Good Night</option>
+      <option value="DCjuly7th">[KR] DreamCatcher - July 7th</option>
+      <option value="DClullaby">[KR] DreamCatcher - Lullaby</option>
+      <option value="DCtrap">[KR] DreamCatcher - Trap</option>
+      <option value="DCwhat">[KR] DreamCatcher - What</option>
+      <option value="DCwonderland">[KR] DreamCatcher - Wonderland</option>
+      <option value="SONTUNGMTPchayngaydi">[VN] Son Tung M-TP - Chay Ngay Di</option>
+      <option value="SOOBINHOANGSONphiasaumotcogai">[VN] Soobin Hoang Son - Phia Sau Mot Co Gai</option>
     </select>
   </div>
   <div id="mm" class="menu2">
@@ -155,7 +157,8 @@ window.onload = function() {
   document.getElementById("range3").onchange = range3;
 }
 function range() {
-  document.getElementById("text").innerHTML = document.getElementById("range").value
+  document.getElementById("text").innerHTML = document.getElementById("range").value;
+  bpi = document.getElementById("range").value;
 }
 function range2() {
   document.getElementById("text2").innerHTML = document.getElementById("range2").value*100+'%';
