@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
  <head>
-  <title>JonnyIsBoss</title>
+  <title>Audition offline</title>
   <meta charset="utf-8" />
 <style>
 	canvas{background: Lightgray;}
@@ -106,10 +106,12 @@
     <button class="btn" type="button" id="run1">EASY</button>
     <button class="btn" type="button" id="run2">NORMAL</button>
     <button class="btn" type="button" id="run3">HARD</button>
-  </div><br><br>
+  </div><br><br><br><br>
   <div class="menu3">
     <input type="range" min="50" max="250" value="125" class="slider" id="range">
     <h2>BPI: <span id="text">125</span></h2>
+    <input type="range" min="0" max="1" value="0.5" step="0.1"class="slider" id="range2">
+    <h2>VOLUME: <span id="text2">0.5</span></h2>
   </div>
 <script>
 // variables
@@ -133,6 +135,7 @@ let perfect = false,good = false,cool = false,miss2 = false;
 let cperfect = 0,cgood = 0,ccool = 0,cmiss = 0;
 let ssa = 2, ssb = 4;
 
+var audio = new Audio('./mp3/'+document.getElementById("song").value+'.mp3');
 var duration = 0;
 window.onload = function() {
 	canvas = document.getElementById("screen");
@@ -141,9 +144,14 @@ window.onload = function() {
   document.getElementById("run2").onclick = run2;
   document.getElementById("run3").onclick = run3;
   document.getElementById("range").onchange = range;
+  document.getElementById("range2").onchange = range2;
 }
 function range() {
   document.getElementById("text").innerHTML = document.getElementById("range").value
+}
+function range2() {
+  document.getElementById("text2").innerHTML = document.getElementById("range2").value
+  audio.volume = document.getElementById("range2").value;
 }
 function run1() {
   document.getElementById("mm").style.visibility = 'hidden';
@@ -171,12 +179,36 @@ function run3() {
   draw();
 }
 function music() {
-  var audio = new Audio('./mp3/'+document.getElementById("song").value+'.mp3');
+  audio = new Audio('./mp3/'+document.getElementById("song").value+'.mp3');
   audio.addEventListener('loadeddata',() => {
-    duration = Math.floor(audio.currentTime) +' / '+Math.floor(audio.duration);
+    duration = Math.floor(Math.floor(audio.currentTime)/60)+':'+(Math.floor(audio.currentTime)%60) +' / '+Math.floor(Math.floor(audio.duration)/60)+':'+(Math.floor(audio.duration)%60);
   })
   setInterval(function() {
-    duration = Math.floor(audio.currentTime) +' / '+Math.floor(audio.duration);
+    let a = Math.floor(Math.floor(audio.currentTime)/60);
+    let b = (Math.floor(audio.currentTime)%60);
+    let c = Math.floor(Math.floor(audio.duration)/60);
+    let d = (Math.floor(audio.duration)%60);
+    if (a < 10) {
+      a = '0'+(a);
+    } else {
+      a = parseint(a);
+    }
+    if (b < 10) {
+      b = '0'+(b);
+    } else {
+      b = parseint(b);
+    }
+    if (c < 10) {
+      c = '0'+(c);
+    } else {
+      c = parseint(c);
+    }
+    if (d < 10) {
+      d = '0'+(d);
+    } else {
+      d = parseint(d);
+    }
+    duration = a+':'+b +' / '+c+':'+d;
     if (audio.currentTime == audio.duration) {
       cancelAnimationFrame(draw);
       dendScreen();
@@ -187,6 +219,7 @@ function music() {
     }
   },100)
   audio.play();
+  audio.volume = document.getElementById("range2").value;
   setTimeout(function() {
     bpi = document.getElementById("range").value
   },1200)
@@ -249,6 +282,8 @@ function music() {
         else if (drawcombination[i] == '⮟') {
           drawcombination[i] = '⮛';
         }
+        var hit = new Audio('./fx/au_hit.wav');
+        hit.play();
       }
       i++;
     }
@@ -326,7 +361,10 @@ function music() {
     ctx.font = "bold 60px Arial";
   	ctx.fillStyle = 'rgba(0,0,0,'+opacity+')';
     ctx.textAlign = "center";
-  	ctx.fillText("PERFECT", 450, 250);
+    let popup = new Image();
+    popup.src = './img/UI_NEW_PERFECT.png';
+    ctx.drawImage(popup, 310, 250);
+  	//ctx.fillText("PERFECT", 450, 250);
     ctx.closePath();
   }
   function dgood() {
@@ -334,7 +372,10 @@ function music() {
     ctx.font = "bold 60px Arial";
   	ctx.fillStyle = 'rgba(0,0,0,'+opacity+')';
     ctx.textAlign = "center";
-  	ctx.fillText("GOOD", 450, 250);
+    let popup = new Image();
+    popup.src = './img/UI_NEW_GREAT.png';
+    ctx.drawImage(popup, 335, 250);
+  	//ctx.fillText("GOOD", 450, 250);
     ctx.closePath();
   }
   function dcool() {
@@ -342,7 +383,10 @@ function music() {
     ctx.font = "bold 60px Arial";
   	ctx.fillStyle = 'rgba(0,0,0,'+opacity+')';
     ctx.textAlign = "center";
-  	ctx.fillText("COOL", 450, 250);
+    let popup = new Image();
+    popup.src = './img/UI_NEW_COOL.png';
+    ctx.drawImage(popup, 355, 250);
+  	//ctx.fillText("COOL", 450, 250);
     ctx.closePath();
   }
   function dmiss() {
@@ -350,7 +394,10 @@ function music() {
     ctx.font = "bold 60px Arial";
   	ctx.fillStyle = 'rgba(0,0,0,'+opacity+')';
     ctx.textAlign = "center";
-  	ctx.fillText("MISS", 450, 250);
+    let popup = new Image();
+    popup.src = './img/UI_Miss.png';
+    ctx.drawImage(popup, 390, 250);
+  	//ctx.fillText("MISS", 450, 250);
     ctx.closePath();
   }
   function dtimer() {
@@ -358,7 +405,7 @@ function music() {
     ctx.font = "bold 30px Arial";
   	ctx.fillStyle = 'black';
     ctx.textAlign = "right";
-  	ctx.fillText(duration+'s', 895, 595);
+  	ctx.fillText(duration, 895, 595);
     ctx.closePath();
   }
   function dmaxcombo() {
@@ -378,7 +425,7 @@ function music() {
   	ctx.fillStyle = 'white';
     ctx.textAlign = "center";
   	ctx.fillText('PERFECT: '+cperfect, 450, 100);
-    ctx.fillText('GOOD: '+cgood, 450, 200);
+    ctx.fillText('GREAT: '+cgood, 450, 200);
     ctx.fillText('COOL: '+ccool, 450, 300);
     ctx.fillText('MISS: '+cmiss, 450, 400);
     ctx.fillText('SCORE: '+score, 450, 500);
@@ -432,6 +479,9 @@ function music() {
       random();
       space = false;
       if (!miss) {
+        var hit = new Audio('./fx/combobreak.mp3');
+        hit.volume = 0.2;
+        hit.play();
         console.log("MISS");
         cmiss++;
         miss2 = true;
@@ -440,8 +490,11 @@ function music() {
       miss = false;
     }
     if (space) {
-      if (xball>=695 && xball <= 695+20-10) {
+      if (xball>=695 && xball <= 720) {
         console.log("PERFECT");
+        var hit = new Audio('./fx/comboburst-3.wav');
+        hit.volume = 0.2;
+        hit.play();
         cperfect++;
         perfect = true;
         space = false;
@@ -449,7 +502,10 @@ function music() {
         combo++;
         score+=2000+200*(combo-1)
       }
-      else if (xball>=675 && xball <= 675+60-12) {
+      else if (xball>=675 && xball <= 720+20) {
+        var hit = new Audio('./fx/comboburst-2.wav');
+        hit.volume = 0.2;
+        hit.play();
         console.log("GOOD");
         cgood++;
         good = true;
@@ -458,7 +514,10 @@ function music() {
         combo++;
         score+=1000+100*(combo-1)
       }
-      else if (xball>=655 && xball <= 655+100-12) {
+      else if (xball>=655 && xball <= 720+40) {
+        var hit = new Audio('./fx/comboburst-4.wav');
+        hit.volume = 0.2;
+        hit.play();
         console.log("COOL");
         ccool++;
         cool = true;
@@ -469,6 +528,9 @@ function music() {
       }
       else {
         console.log("MISS")
+        var hit = new Audio('./fx/combobreak.mp3');
+        hit.volume = 0.2;
+        hit.play();
         cmiss++;
         miss2 = true;
         miss = true;
