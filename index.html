@@ -120,13 +120,14 @@ let ctx;
 /* /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
 */ /////////////////////////////////////////////////////////
-var combination = [37,38,39,40,40];
+var combination = [];
 var inputcombination = [];
 var drawcombination = [];
 /* /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
 */ /////////////////////////////////////////////////////////
-let go = false,space = false,miss = false;
+let go = false,space = false,miss = true;
+let jump = 1;
 let xball = 513;
 let bpi = 0;
 let score = 0,combo = 0,comboshow = 0;
@@ -429,24 +430,31 @@ function music() {
     combination = [];
     inputcombination = [];
     drawcombination = [];
-    let a = getRndInteger(ssa,ssb); // 2 4
-    for (let i=0; i<a; i++) {
-       let b = getRndInteger(37,40);
-       if (b == 37) {
-         drawcombination.push('⮜');
-       }
-       else if (b == 38) {
-         drawcombination.push('⮝');
-       }
-       else if (b == 39) {
-         drawcombination.push('⮞');
-       }
-       else if (b == 40) {
-         drawcombination.push('⮟');
-       }
-       combination.push(b);
+    if (jump == 2) {
+      jump = 0;
+      let a = getRndInteger(ssa,ssb); // 2 4
+      for (let i=0; i<a; i++) {
+         let b = getRndInteger(37,40);
+         if (b == 37) {
+           drawcombination.push('⮜');
+         }
+         else if (b == 38) {
+           drawcombination.push('⮝');
+         }
+         else if (b == 39) {
+           drawcombination.push('⮞');
+         }
+         else if (b == 40) {
+           drawcombination.push('⮟');
+         }
+         combination.push(b);
+      }
+      console.log(combination);
+      miss = false;
     }
-    console.log(combination);
+    if (jump == 0) {
+      miss = true;
+    }
   }
   // draw animation
   function draw() {
@@ -468,6 +476,7 @@ function music() {
     xball += bpi/60;
     if (xball >= 513+283) {
       xball = 513;
+      jump++;
       random();
       space = false;
       if (!miss) {
@@ -485,7 +494,7 @@ function music() {
       if (xball>=695 && xball <= 720) {
         console.log("PERFECT");
         var hit = new Audio('./fx/comboburst-3.wav');
-        hit.volume = 0.2;
+        hit.volume = 0.3;
         hit.play();
         cperfect++;
         perfect = true;
@@ -496,7 +505,7 @@ function music() {
       }
       else if (xball>=675 && xball <= 720+20) {
         var hit = new Audio('./fx/comboburst-2.wav');
-        hit.volume = 0.2;
+        hit.volume = 0.3;
         hit.play();
         console.log("GOOD");
         cgood++;
@@ -508,7 +517,7 @@ function music() {
       }
       else if (xball>=655 && xball <= 720+40) {
         var hit = new Audio('./fx/comboburst-4.wav');
-        hit.volume = 0.2;
+        hit.volume = 0.3;
         hit.play();
         console.log("COOL");
         ccool++;
@@ -535,25 +544,25 @@ function music() {
       dperfect();
       setTimeout(function() {
         perfect = false;
-      },500-bpi);
+      },600-bpi);
     }
     else if (good) {
       dgood();
       setTimeout(function() {
         good = false;
-      },500-bpi);
+      },600-bpi);
     }
     else if (cool) {
       dcool();
       setTimeout(function() {
         cool = false;
-      },500-bpi);
+      },600-bpi);
     }
     else if (miss2) {
       dmiss();
       setTimeout(function() {
         miss2 = false;
-      },500-bpi);
+      },600-bpi);
     }
     requestAnimationFrame(draw);
   }
