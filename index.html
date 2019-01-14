@@ -147,6 +147,7 @@ var hitc = new Audio('./fx/comboburst-4.wav');
 var hitm = new Audio('./fx/combobreak.mp3');
 var duration = 0;
 window.onload = function() {
+	alert("Rytmespill, med lyd!\nSpilles ved å følge piltastene (<- ^ v ->) og trykk dem etter riktig rekkefølge (resettes om feil)\nDeretter trykke spacebar når ballen kommer til midten av punktet for å score.\n\nHøyreklikk + vis sidekilde, for å se kode.")
 	canvas = document.getElementById("screen");
 	ctx = canvas.getContext("2d");
   document.getElementById("run1").onclick = run1;
