@@ -1,4 +1,6 @@
-# https://shirajuki.github.io/au/
+# Audtion HTML5 Canvas
+
+https://shirajuki.github.io/au/
 
 HTML5 Canvas port of the game audition simplified, my try on making the game as a highschooler
 
